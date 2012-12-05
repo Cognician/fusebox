@@ -26,7 +26,11 @@ Flags are always inactive unless specifically activated.
 (fusebox/all-flags)
 ```
 
-`fusebox/all-flags` returns a set of all the flags that have been defined.
+`fusebox/all-flags` returns a set of all the flags that have been defined, in the format:
+
+```clojure
+{:flag :namespace/flag :description "Description of the flag"}
+```
 
 ### Activating flags
 
@@ -66,15 +70,15 @@ Ring middleware can be used to ensure that flags are set prior to processing any
 ```clojure
 (require '[cognician.fusebox.middleware :as fusebox-middleware])
 
-(defn get-flags-for-session
+(defn get-flags-for-request
   []
   (...))
 
 ;; add to your middleware stack
-(fusebox-middleware/wrap-flags get-flags-for-session)
+(fusebox-middleware/wrap-flags get-flags-for-request)
 ```
 
-The `get-flags-for-session` function above should return a collection (or a collection of collections) of flags to be used with `fusebox/activate!`.
+The `get-flags-for-request` function above should return a collection (or a collection of collections) of flags to be used with `fusebox/activate!`.
 
 ### Scoping flags
 
