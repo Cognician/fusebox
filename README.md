@@ -18,6 +18,16 @@ On clojars at <https://clojars.org/cognician/fusebox>.
 
 Flags are always inactive unless specifically activated.
 
+### Listing flags
+
+```clojure
+(require '[cognician.fusebox :as fusebox])
+
+(fusebox/all-flags)
+```
+
+`fusebox/all-flags` returns a set of all the flags that have been defined.
+
 ### Activating flags
 
 ```clojure
