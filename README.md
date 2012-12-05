@@ -1,4 +1,4 @@
-# Fusebox: a feature flag system for Clojure.
+# Fusebox: a feature flag system for Clojure and ClojureScript.
 
 ## Usage
 
@@ -13,7 +13,7 @@ On clojars at <https://clojars.org/cognician/fusebox>.
 ```clojure
 (require '[cognician.fusebox :as fusebox])
 
-(fusebox/flag :namespace/flag "Description of the flag")
+(fusebox/create-flag! :namespace/flag "Description of the flag")
 ```
 
 Flags are always inactive unless specifically activated.
@@ -23,13 +23,19 @@ Flags are always inactive unless specifically activated.
 ```clojure
 (require '[cognician.fusebox :as fusebox])
 
-(fusebox/all-flags)
+(fusebox/flags)
 ```
 
-`fusebox/all-flags` returns a set of all the flags that have been defined, in the format:
+`fusebox/flags` returns a set of all the flags that have been defined, in the format:
 
 ```clojure
 {:flag :namespace/flag :description "Description of the flag"}
+```
+
+Pass the namespace portion as a keyword to get only the flags in that namespace:
+
+```clojure
+(fusebox/flags :namespace)
 ```
 
 ### Activating flags
@@ -53,7 +59,7 @@ If any flags are not defined when activating them, they will be defined automati
 
 Although it shouldn't be necessary to, flags can be explicitly deactivated with `fusebox/deactivate!`. Use the same argument options as described for `fusebox/activate!`.
 
-### Using flags
+### Checking if flags are active
 
 ```clojure
 (require '[cognician.fusebox :as fusebox])
@@ -62,6 +68,8 @@ Although it shouldn't be necessary to, flags can be explicitly deactivated with 
   <enabled code>
   <not enabled code>)
 ```
+
+For the purpose of `fusebox/active?`, any flag not already defined will be treated as inactive.
 
 ### Ring middleware
 
@@ -85,9 +93,9 @@ The `get-flags-for-request` function above should return a collection (or a coll
 By default, if you're not using the Ring middleware, Fusebox stores flags in a global scope. If you want to explicitly scope flag state within some logic, for example, from within a scheduled worker task, you can use the `fusebox/scope` macro:
 
 ```clojure
-(require '[cognician.fusebox :as fusebox])
+(require '[cognician.fusebox.macros :as fusebox-macros])
 
-(fusebox/scope
+(fusebox-macros/scope
   (fusebox/activate! :namespace/flag)
   ... later on ...
   (if (fusebox/active? :namespace/flag)
@@ -95,7 +103,13 @@ By default, if you're not using the Ring middleware, Fusebox stores flags in a g
     <not enabled code>))
 ```
 
-Each use of `fusebox/scope` makes all the flags inactive. Calls to `fusebox/scope` can be nested.
+Each use of `fusebox-macros/scope` makes all the flags inactive. Calls to `fusebox-macros/scope` can be nested.
+
+We use a separate macros namespace here so that fusebox can be used in ClojureScript with [lein-cljsbuild](https://github.com/emezeske/lein-cljsbuild)'s [crossovers](https://github.com/emezeske/lein-cljsbuild/blob/master/doc/CROSSOVERS.md).
+
+### Using in ClojureScript
+
+Everything above (aside from the Ring middleware) works in ClojureScript. Sharing flags between server-side Clojure and client-side ClojureScript is outside the scope of this library. However, it's simple enough to use `fusebox/flags` on the server and `fusebox/activate` on the client, with your preferred method of transferring the data in between.
 
 ## License
 
