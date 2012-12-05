@@ -2,9 +2,9 @@
 
 ## Usage
 
-Add [cognician/fusebox "0.1.0"] to your Leiningen project's dependencies.
+Add `[cognician/fusebox "0.1.0"]` to your Leiningen project's dependencies.
 
-On clojars at https://clojars.org/cognician/fusebox.
+On clojars at <https://clojars.org/cognician/fusebox>.
 
 ## Usage
 
@@ -16,21 +16,28 @@ On clojars at https://clojars.org/cognician/fusebox.
 (fusebox/flag :namespace/flag "Description of the flag")
 ```
 
-Flags are always deactivated unless specifically activated.
+Flags are always inactive unless specifically activated.
 
 ### Activating flags:
 
 ```clojure
 (require '[cognician.fusebox :as fusebox])
 
-;; toggle individual flags
+;; activate individual flags
 (fusebox/activate! :namespace/flag)
 
-;; toggle collections of flags
-(fusebox/activate! #{:namespacqe/flag1 :namespace/flag2})
+;; activate collections of flags
+(fusebox/activate! #{:namespace/flag1 :namespace/flag2})
+(fusebox/activate! [:namespace/flag3 :namespace/flag4])
+
+;; activate multiple collections of flags
+;; this allows higher level abstractions to set all gathered flags in one go
+(fusebox/activate! #{:namespace/flag1 :namespace/flag2} [:namespace/flag3 :namespace/flag4])
 ```
 
-To deactivate flags, simply use `fusebox/deactivate!` with the same argument options described above.
+If any flags are not defined when activating them, they will be defined automatically, with the string representation of the flag as the description.
+
+Although it shouldn't be necessary to, flags can be explicitly deactivated with `fusebox/deactivate!`. Use the same argument options as described for `fusebox/activate!`.
 
 ### Using flags:
 
@@ -41,6 +48,23 @@ To deactivate flags, simply use `fusebox/deactivate!` with the same argument opt
   <enabled code>
   <not enabled code>)
 ```
+
+### Ring middleware
+
+Ring middleware can be used to ensure that flags are set prior to processing any web request logic.
+
+```clojure
+(require '[cognician.fusebox.middleware :as fusebox-middleware])
+
+(defn get-flags-for-session
+  []
+  (...))
+
+;; add to your middleware stack
+(fusebox-middleware/wrap-flags get-flags-for-session)
+```
+
+The `get-flags-for-session` function above should return a collection (or a collection of collections) of flags to be used with `fusebox/activate!`.
 
 ## License
 
