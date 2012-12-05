@@ -8,7 +8,7 @@ On clojars at <https://clojars.org/cognician/fusebox>.
 
 ## Usage
 
-### Defining flags:
+### Defining flags
 
 ```clojure
 (require '[cognician.fusebox :as fusebox])
@@ -18,7 +18,7 @@ On clojars at <https://clojars.org/cognician/fusebox>.
 
 Flags are always inactive unless specifically activated.
 
-### Activating flags:
+### Activating flags
 
 ```clojure
 (require '[cognician.fusebox :as fusebox])
@@ -39,7 +39,7 @@ If any flags are not defined when activating them, they will be defined automati
 
 Although it shouldn't be necessary to, flags can be explicitly deactivated with `fusebox/deactivate!`. Use the same argument options as described for `fusebox/activate!`.
 
-### Using flags:
+### Using flags
 
 ```clojure
 (require '[cognician.fusebox :as fusebox])
@@ -65,6 +65,23 @@ Ring middleware can be used to ensure that flags are set prior to processing any
 ```
 
 The `get-flags-for-session` function above should return a collection (or a collection of collections) of flags to be used with `fusebox/activate!`.
+
+### Scoping flags
+
+By default, if you're not using the Ring middleware, Fusebox stores flags in a global scope. If you want to explicitly scope flag state within some logic, for example, from within a scheduled worker task, you can use the `fusebox/scope` macro:
+
+```clojure
+(require '[cognician.fusebox :as fusebox])
+
+(fusebox/scope
+  (fusebox/activate! :namespace/flag)
+  ... later on ...
+  (if (fusebox/active? :namespace/flag)
+    <enabled code>
+    <not enabled code>))
+```
+
+Each use of `fusebox/scope` makes all the flags inactive. Calls to `fusebox/scope` can be nested.
 
 ## License
 
