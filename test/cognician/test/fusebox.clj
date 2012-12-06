@@ -1,7 +1,7 @@
 (ns cognician.test.fusebox
   (:use midje.sweet)
   (:require [cognician.fusebox :as f]
-            [cognician.fusebox-macros :as fm]))
+            [cognician.fusebox.macros :as fm]))
 
 (defn reset-fuses!
   []

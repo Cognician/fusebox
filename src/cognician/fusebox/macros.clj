@@ -1,4 +1,4 @@
-(ns cognician.fusebox-macros
+(ns cognician.fusebox.macros
   (:require [cognician.fusebox :as fusebox]))
 
 (defmacro scope
