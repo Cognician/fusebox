@@ -76,7 +76,7 @@ For the purpose of `fusebox/enabled?`, any fuse not already defined will be trea
 By default, Fusebox stores fuse able state in a global scope. If you want to explicitly scope fuse state within some logic, for example, from within a scheduled worker task, you can use the `fusebox-macros/scope` macro:
 
 ```clojure
-(require '[cognician.fusebox.macros :as fusebox-macros])
+(require '[cognician.fusebox-macros :as fusebox-macros])
 
 (fusebox/add-fuse! :namespace/fuse "Description")
 
