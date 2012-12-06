@@ -13,7 +13,7 @@ On clojars at <https://clojars.org/cognician/fusebox>.
 ```clojure
 (require '[cognician.fusebox :as fusebox])
 
-(fusebox/create-flag! :namespace/flag "Description of the flag")
+(fusebox/add-flag! :namespace/flag "Description of the flag")
 ```
 
 Flags are always inactive unless specifically activated.
@@ -29,7 +29,7 @@ Flags are always inactive unless specifically activated.
 `fusebox/flags` returns a set of all the flags that have been defined, in the format:
 
 ```clojure
-{:flag :namespace/flag :description "Description of the flag"}
+{:flag :namespace/flag :description "Description of the flag" :active? <true|false>}
 ```
 
 Pass the namespace portion as a keyword to get only the flags in that namespace:
@@ -65,25 +65,31 @@ Although it shouldn't be necessary to, flags can be explicitly deactivated with 
 (require '[cognician.fusebox :as fusebox])
 
 (if (fusebox/active? :namespace/flag)
-  <enabled code>
-  <not enabled code>)
+  <active code>
+  <inactive code>)
 ```
 
 For the purpose of `fusebox/active?`, any flag not already defined will be treated as inactive.
 
 ### Scoping flags
 
-By default, Fusebox stores flags in a global scope. If you want to explicitly scope flag state within some logic, for example, from within a scheduled worker task, you can use the `fusebox-macros/scope` macro:
+By default, Fusebox stores flag active/inactive state in a global scope. If you want to explicitly scope flag state within some logic, for example, from within a scheduled worker task, you can use the `fusebox-macros/scope` macro:
 
 ```clojure
 (require '[cognician.fusebox.macros :as fusebox-macros])
 
+(fusebox/add-flag! :namespace/flag "Description")
+
 (fusebox-macros/scope
   (fusebox/activate! :namespace/flag)
   ... later on ...
-  (if (fusebox/active? :namespace/flag)
-    <enabled code>
-    <not enabled code>))
+  (if (fusebox/active? :namespace/flag) ;; true - runs 'active code'
+    <active code>
+    <inactive code>))
+
+(if (fusebox/active? :namespace/flag) ;; false - runs 'inactive code'
+  <active code>
+  <inactive code>)
 ```
 
 Each use of `fusebox-macros/scope` makes all the flags inactive within that scope. Calls to `fusebox-macros/scope` can be nested.
