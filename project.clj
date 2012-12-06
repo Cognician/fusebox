@@ -1,4 +1,4 @@
-(defproject cognician/fusebox "0.1.0-SNAPSHOT"
+(defproject cognician/fusebox "0.1.0"
   :description "Fusebox: a feature flag system for Clojure and ClojureScript."
   :url "https://github.com/cognician/fusebox"
   :license {:name "Eclipse Public License"
