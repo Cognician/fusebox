@@ -2,7 +2,7 @@
 
 ## Usage
 
-Add `[cognician/fusebox "0.1.0"]` to your Leiningen project's dependencies.
+Add `[cognician/fusebox "0.1.1"]` to your Leiningen project's dependencies.
 
 On clojars at <https://clojars.org/cognician/fusebox>.
 
