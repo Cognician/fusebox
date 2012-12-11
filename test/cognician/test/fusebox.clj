@@ -6,7 +6,7 @@
 (defn reset-fuses!
   []
   (reset! f/fuses* {})
-  (reset! f/fuse-states* {}))
+  (f/reset-fuse-states!))
 
 (fact "Make fuses."
   (f/make-fuse :namespace/fuse "Description")

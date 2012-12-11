@@ -14,6 +14,10 @@
   [fuse]
   (not (nil? (get @fuses* fuse))))
 
+(defn reset-fuse-states!
+  []
+  (reset! fuse-states* {}))
+
 (defn add-fuse!
   "Add a fuse definition."
   [fuse description]
