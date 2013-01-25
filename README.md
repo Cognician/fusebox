@@ -12,7 +12,7 @@ Martin Fowler [explains it nicely](http://martinfowler.com/bliki/FeatureToggle.h
 
 * Marketing can enable flags when the marketing initiatives are all lined up, without a developer having to get involved.
 * Quickly yank features from production when critical bugs are discovered, without having to take down the whole system or go throw a rollback and reploy.
-* Integrate fuses with A/B testing and serve new features to a percentage of your user base.
+* Integrate flags with A/B testing and serve new features to a percentage of your user base.
 * Run regression tests with all flags on AND all flags off.
 * Provide early beta access for new features to a subset of users.
 
