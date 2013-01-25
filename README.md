@@ -1,12 +1,28 @@
 # Fusebox: a feature flag system for Clojure and ClojureScript.
 
+## What are feature flags?
+
+In short, a way to control which features are enabled or disabled in a production system, without having to deploy code or suffer downtime. The relevant code is wrapped in a conditional which checks whether a feature flag is enabled, and does the appropriate thing accordingly - when enabled, use the new feature code, and when disabled, do nothing, or perhaps use alternate, older code when the new feature replaces an old one.
+
+One major advantage to using feature flags is that you needn't run separate staging and production systems; you stage new features *in production* by wrapping them with flags. You can then enable flags for the whole system or for individual users, user roles, or groups of users - whatever suits your application's own logic - as and when you need.
+
+Martin Fowler [explains it nicely](http://martinfowler.com/bliki/FeatureToggle.html). [Etsy](http://codeascraft.etsy.com/2011/02/04/how-does-etsy-manage-development-and-operations/), [Square](http://www.infoq.com/presentations/Square), [Asana](http://blog.asana.com/2011/04/using-flags-to-ease-new-feature-development/), [Github](https://github.com/blog/677-how-we-deploy-new-features) and [Flickr](http://code.flickr.net/2009/12/02/flipping-out/) all use feature flags in production.
+
+### Some applications for feature flags:
+
+* Marketing can enable flags when the marketing initiatives are all lined up, without a developer having to get involved.
+* Quickly yank features from production when critical bugs are discovered, without having to take down the whole system or go throw a rollback and reploy.
+* Integrate fuses with A/B testing and serve new features to a percentage of your user base.
+* Run regression tests with all flags on AND all flags off.
+* Provide early beta access for new features to a subset of users.
+
+*Fusebox* is a small abstraction for documenting and enabling feature flags, or *fuses*. It provides no durability for fuses; that's up to you.
+
 ## Usage
 
 Add `[cognician/fusebox "0.1.1"]` to your Leiningen project's dependencies.
 
 On clojars at <https://clojars.org/cognician/fusebox>.
-
-## Usage
 
 ### Defining fuses
 
