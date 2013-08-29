@@ -108,7 +108,7 @@ By default, Fusebox stores fuse able state in a global scope. If you want to exp
   <disabled code>)
 ```
 
-Each use of `fusebox-macros/scope` makes all the fuses disabled within that scope. Calls to `fusebox-macros/scope` can be nested.
+Each use of `fusebox-macros/scope` makes all the fuses disabled within that scope unless the first form in the body of the macro is :chain. In that case the fuses enabled outside the scope at the time the macro is entered will be enabled inside. Calls to `fusebox-macros/scope` can be nested.
 
 We use a separate macros namespace here so that fusebox can be used in ClojureScript with [lein-cljsbuild](https://github.com/emezeske/lein-cljsbuild)'s [crossovers](https://github.com/emezeske/lein-cljsbuild/blob/master/doc/CROSSOVERS.md).
 
