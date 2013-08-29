@@ -20,7 +20,7 @@ Martin Fowler [explains it nicely](http://martinfowler.com/bliki/FeatureToggle.h
 
 ## Usage
 
-Add `[cognician/fusebox "0.1.1"]` to your Leiningen project's dependencies.
+Add `[cognician/fusebox "0.1.2"]` to your Leiningen project's dependencies.
 
 On clojars at <https://clojars.org/cognician/fusebox>.
 
