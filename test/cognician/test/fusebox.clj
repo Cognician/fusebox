@@ -86,3 +86,18 @@
       (f/enable! :namespace/fuse)
       (f/enabled? :namespace/fuse) => true)
      (f/enabled? :namespace/fuse) => false)))
+
+(fact "Scoping fuses with chain."
+  (reset-fuses!)
+  (let [fuse (f/make-fuse :namespace/fuse "Description")]
+    (f/add-fuse! :namespace/fuse "Description")
+    (f/enable! :namespace/fuse)
+    (f/enabled? :namespace/fuse) => true
+    (fm/scope :chain
+     (f/enabled? :namespace/fuse) => true)
+    (f/enabled? :namespace/fuse) => true
+    (fm/scope :chain
+              (f/enabled? :namespace/fuse) => true
+              (f/disable! :namespace/fuse)
+              (f/enabled? :namespace/fuse) => false)
+    (f/enabled? :namespace/fuse) => true))
